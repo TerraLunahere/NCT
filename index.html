@@ -558,10 +558,10 @@ const resultMap = {
 };
 
 function getTestResult(avgScores) {
-  const neoLetter = avgScores.neoFlavor >= 5 ? "N" : "n";
-  const energyLetter = avgScores.energy >= 5 ? "I" : "R";
-  const exprLetter = avgScores.expression >= 5 ? "F" : "S";
-  const densityLetter = avgScores.density >= 5 ? "G" : "M";
+  const neoLetter = avgScores.neoFlavor >= 4 ? "N" : "n";
+  const energyLetter = avgScores.energy >= 4 ? "I" : "R";
+  const exprLetter = avgScores.expression >= 4 ? "F" : "S";
+  const densityLetter = avgScores.density >= 4 ? "G" : "M";
   
   const code = neoLetter + energyLetter + exprLetter + densityLetter;
   const matched = resultMap[code] || resultMap["NRSM"];
