@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>NCT 划曲风格倾向测试</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: #aaff99;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 20px;
+  color: #1e2a3e;
+  min-height: 100vh;
+  transition: background-color 0.5s ease;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(2px);
+  border-radius: 48px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.05);
+  overflow: hidden;
+  padding: 24px 28px 40px;
+  transition: all 0.2s ease;
+}
+h1 {
+  font-family: 'Impact', sans-serif;
+  font-size: 18vw;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  color: #3c8a29;
+  letter-spacing: 2px;
+  text-align: center;
+}
+.sub-title {
+  text-align: center;
+  font-size: 36px;
+  color: #3c8a29;
+  font-weight: bold;
+  margin-top: 20px;
+}
+.progress-bar {
+  background: #e2e8f0;
+  border-radius: 40px;
+  height: 6px;
+  margin: 20px 0 28px;
+  overflow: hidden;
+}
+.progress-fill {
+  background: #3c8a29;
+  width: 0%;
+  height: 100%;
+  transition: width 0.25s ease;
+}
+.question-card {
+  background: white;
+  border-radius: 32px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.03), 0 2px 4px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+.question-text {
+  font-size: 1.45rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  line-height: 1.3;
+  color: #0f2b3b;
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.option {
+  background: #f8fafc;
+  border-radius: 60px;
+  padding: 12px 20px;
+  border: 1px solid #dee4ed;
+  transition: all 0.2s;
+  cursor: pointer;
+  font-weight: 500;
+  color: #1e2f3f;
+}
+.option:hover {
+  background: #eef2f9;
+  border-color: #9bb7d0;
+  transform: translateX(4px);
+}
+.option.selected {
+  background: #d9e9f2;
+  border-color: #3c8a29;
+  color: #0f3b4c;
+  box-shadow: 0 2px 8px rgba(44,125,160,0.1);
+}
+button {
+  background: #3c8a29;
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 14px 28px;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: 12px;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+button:hover {
+  background: #2f6e20;
+  transform: translateY(-1px);
+}
+.result-area {
+  background: linear-gradient(120deg, #eef2f9, #ffffff);
+  border-radius: 32px;
+  padding: 24px;
+  margin-top: 24px;
+  text-align: center;
+  border: 1px solid #cbdde9;
+}
+.result-code {
+  font-family: monospace;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 6px;
+  background: #3c8a29;
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 60px;
+  color: #ffffff;
+  margin: 12px 0;
+}
+.result-desc {
+  font-size: 1.15rem;
+  line-height: 1.4;
+  color: #1f3e48;
+}
+.poem {
+  font-style: italic;
+  color: #000000;
+  line-height: 1.6;
+  text-align: left;
+  margin: 16px 0;
+  white-space: pre-line;
+  font-size: 0.95rem;
+}
+.easter-egg {
+  font-style: italic;
+  color: #2c6e1f;
+  text-align: center;
+  margin: 12px 0;
+  font-weight: 500;
+}
+.footer {
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: 16px;
+  color: #7e8c9e;
+}
+.global-cr {
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  margin-top: 24px;
+  padding-bottom: 12px;
+}
+hr {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid #dce5ef;
+}
+.cover-body {
+  background-color: #aaff99 !important;
+  font-family: Helvetica, "SimSun", sans-serif;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0 20px;
+}
+.cover-h1 {
+  font-family: Impact, sans-serif;
+  font-size: 18vw;
+  color: #3c8a29;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  letter-spacing: 3px;
+  margin: 0;
+}
+.cover-p {
+  font-size: 36px;
+  color: #3c8a29;
+  margin-top: 20px;
+  font-weight: bold;
+  max-width: 80%;
+}
+.start-btn {
+  margin-top: 40px;
+  padding: 16px 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #3c8a29;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+  width: auto;
+}
+.start-btn:hover {
+  transform: scale(1.05);
+  background: #2f6e20;
+}
+.btn-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+.btn-group button {
+  flex: 1;
+  margin-top: 0;
+}
+.dim-bar-group {
+  margin: 20px 0;
+  text-align: left;
+}
+.dim-item {
+  margin: 10px 0;
+}
+.dim-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 4px;
+}
+.dim-progress {
+  width: 100%;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.dim-fill {
+  height: 100%;
+  background: #3c8a29;
+  border-radius: 4px;
+}
+.cr-box {
+  margin-top: 20px;
+}
+.cr-text {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #3c8a29;
+  margin-bottom: 6px;
+}
+.cr-note {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 4px;
+}
+</style>
+</head>
+<body>
+<div id="cover" class="cover-body">
+  <h1 class="cover-h1">NCT-SONG</h1>
+  <p class="cover-p">划曲风格倾向测试</p>
+  <button class="start-btn" onclick="showTest()">开始测试</button>
+</div>
+<div class="container" id="app" style="display:none;">
+  <h1>NCT-SONG</h1>
+  <div class="sub-title">划曲风格倾向测试</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div id="questionsArea"></div>
+  <div id="resultArea" style="display: none;"></div>
+  <div class="footer">基于 NEO划味 · 清爽↔强烈 · 感性↔力量 · 简约↔华丽</div>
+</div>
+<div class="global-cr">cr TerraLuna🌙</div>
+<script>
+const SHIFT = { neo: 0.9, energy: 1.5, expression: 0.9, density: 1.3 };
+
+function vibrate() {
+  if (navigator.vibrate) navigator.vibrate(50);
+}
+
+function shareTest() {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({
+      title: 'NCT 划曲风格倾向测试',
+      text: '测测你的划曲风格代码！',
+      url: url
+    }).catch((err) => {
+      console.error('分享失败', err);
+      alert('分享失败，可尝试复制链接');
+    });
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      alert('链接已复制，快去分享给朋友吧~');
+    }).catch(() => {
+      alert('无法自动复制，请手动复制链接：' + url);
+    });
+  }
+}
+
+function showTest() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  init();
+}
+function restartTest() {
+  document.getElementById('resultArea').style.display = 'none';
+  document.getElementById('questionsArea').style.display = 'block';
+  init();
+}
+
+const songLibrary = [
+  { name: "英雄 (Kick It)", team: "127", neo:7, energy:9, expression:8, density:7 },
+  { name: "樱桃炸弹 (Cherry Bomb)", team: "127", neo:8, energy:9, expression:7, density:7 },
+  { name: "Sticker", team: "127", neo:10, energy:8, expression:6, density:9 },
+  { name: "疾驰 (2 Baddies)", team: "127", neo:7, energy:9, expression:8, density:8 },
+  { name: "Regular", team: "127", neo:6, energy:7, expression:7, density:7 },
+  { name: "Fact Check (不可思议)", team: "127", neo:7, energy:8, expression:7, density:6 },
+  { name: "无限的我 (Limitless)", team: "127", neo:8, energy:7, expression:6, density:7 },
+  { name: "味 (Hot Sauce)", team: "dream", neo:6, energy:7, expression:6, density:7 },
+  { name: "Hello Future", team: "dream", neo:5, energy:2, expression:4, density:5 },
+  { name: "We Go Up (青春接力)", team: "dream", neo:4, energy:3, expression:4, density:4 },
+  { name: "Beatbox", team: "dream", neo:4, energy:5, expression:4, density:5 },
+  { name: "我们的季节 (My Youth)", team: "dream", neo:2, energy:2, expression:3, density:3 },
+  { name: "Ridin'", team: "dream", neo:6, energy:8, expression:7, density:6 },
+  { name: "BOOM", team: "dream", neo:6, energy:7, expression:6, density:6 },
+  { name: "秘语 (Love Talk)", team: "wayv", neo:6, energy:4, expression:5, density:6 },
+  { name: "无翼而飞 (Take Off)", team: "wayv", neo:7, energy:7, expression:6, density:7 },
+  { name: "Phantom", team: "wayv", neo:8, energy:7, expression:6, density:8 },
+  { name: "时间倒流 (Turn Back Time)", team: "wayv", neo:8, energy:8, expression:7, density:7 },
+  { name: "Kick Back", team: "wayv", neo:7, energy:7, expression:6, density:7 },
+  { name: "Make A Wish (Birthday Song)", team: "u", neo:7, energy:7, expression:7, density:8 },
+  { name: "BOSS", team: "u", neo:7, energy:7, expression:7, density:8 },
+  { name: "90's Love", team: "u", neo:6, energy:5, expression:5, density:6 },
+  { name: "第七感 (The 7th Sense)", team: "u", neo:9, energy:4, expression:3, density:2 },
+  { name: "From Home", team: "u", neo:3, energy:2, expression:2, density:3 },
+  { name: "Baggy Jeans", team: "u", neo:9, energy:8, expression:7, density:8 },
+  { name: "Without You", team: "u", neo:3, energy:5, expression:2, density:4 },
+  { name: "WISH", team: "wish", neo:3, energy:2, expression:4, density:3 },
+  { name: "Songbird", team: "wish", neo:4, energy:2, expression:4, density:4 },
+  { name: "Steady", team: "wish", neo:4, energy:3, expression:3, density:4 },
+  { name: "Surf", team: "wish", neo:3, energy:2, expression:3, density:3 },
+  { name: "Dunk Shot", team: "wish", neo:3, energy:3, expression:3, density:3 }
+];
+
+let selectedSongNames = [];
+let userRainChoice = null;
+let userSelectedMoments = []; 
+
+const mainQuestions = [
+  { id:"main1", text:"哪首歌的整体氛围更让你沉浸？",
+    options:[
+      { text:"第七感 (The 7th Sense) – 神秘梦境，留白中暗涌", team:"u", neo:9, energy:4, expression:3, density:2 },
+      { text:"We Young – 夏日海边，少年奔跑的清爽", team:"dream", neo:3, energy:1, expression:3, density:3 },
+      { text:"Phantom – 神秘歌剧，面具下的宏大叙事", team:"wayv", neo:8, energy:7, expression:6, density:8 },
+      { text:"Steady – 温暖陪伴，像星光汇聚的路", team:"wish", neo:4, energy:3, expression:3, density:4 }
+    ]},
+  { id:"main2", text:"你更想被哪种能量击中？",
+    options:[
+      { text:"英雄 (Kick It) – 力量感十足，充满活力", team:"127", neo:7, energy:9, expression:8, density:7 },
+      { text:"BOOM – 低沉鼓点，节奏感强", team:"dream", neo:6, energy:7, expression:6, density:6 },
+      { text:"时间倒流 (Turn Back Time) – 宏大弦乐", team:"wayv", neo:8, energy:8, expression:7, density:7 },
+      { text:"Songbird – 清晨鸟鸣，轻快跳跃的活力", team:"wish", neo:4, energy:2, expression:4, density:4 }
+    ]},
+  { id:"main3", text:"当音乐表达情绪时，你更倾向？",
+    options:[
+      { text:"Without You – 情感饱满的高音", team:"u", neo:3, energy:5, expression:2, density:4 },
+      { text:"BOSS – 自信的律动", team:"u", neo:7, energy:7, expression:7, density:8 },
+      { text:"秘语 (Love Talk) – 低吟浅唱，暧昧在呼吸间", team:"wayv", neo:6, energy:4, expression:5, density:6 },
+      { text:"Hello Future – 明亮希望，彩虹填满耳朵", team:"dream", neo:5, energy:2, expression:4, density:5 }
+    ]}
+];
+
+const similarBranches = {
+  main1: { id:"sim1", text:"下面这些歌也有相似的沉浸感，你更喜欢哪一种？",
+    options:[
+      { text:"无限的我 (Limitless) – 迷幻氛围，富有张力", team:"127", neo:8, energy:7, expression:6, density:7 },
+      { text:"味 (Hot Sauce) – 活泼上口", team:"dream", neo:6, energy:7, expression:6, density:7 },
+      { text:"无翼而飞 (Take Off) – 力量感十足", team:"wayv", neo:7, energy:7, expression:6, density:7 },
+      { text:"Dunk Shot – 青春活力，跳跃感", team:"wish", neo:3, energy:3, expression:3, density:3 }
+    ]},
+  main2: { id:"sim2", text:"这些歌的能量也很高，哪首更对你的胃口？",
+    options:[
+      { text:"樱桃炸弹 (Cherry Bomb) – 节奏独特，很有个性", team:"127", neo:8, energy:9, expression:7, density:7 },
+      { text:"Ridin' – 鼓点强劲，街头感十足", team:"dream", neo:6, energy:8, expression:7, density:6 },
+      { text:"Kick Back – 力量感十足，有气势", team:"wayv", neo:7, energy:7, expression:6, density:7 },
+      { text:"Surf – 清爽冲浪，活力满满", team:"wish", neo:3, energy:2, expression:3, density:3 }
+    ]},
+  main3: { id:"sim3", text:"这些歌的情绪表达也很独特，你更倾向？",
+    options:[
+      { text:"Fact Check (不可思议) – 干练自信，气场强", team:"127", neo:7, energy:8, expression:7, density:6 },
+      { text:"Beatbox – 自由律动，快乐嘻哈", team:"dream", neo:4, energy:5, expression:4, density:5 },
+      { text:"Phantom – 神秘感性，华丽神秘", team:"wayv", neo:8, energy:7, expression:6, density:8 },
+      { text:"Steady – 温暖陪伴，治愈系", team:"wish", neo:4, energy:3, expression:3, density:4 }
+    ]}
+};
+
+const teamBranch = {
+  "127": { id:"branch_127", text:"在NCT 127的歌中，哪首更符合你的听觉偏好？",
+    options:[
+      { text:"英雄 (Kick It)", neo:7, energy:9, expression:8, density:7 },
+      { text:"樱桃炸弹 (Cherry Bomb)", neo:8, energy:9, expression:7, density:7 },
+      { text:"Sticker", neo:10, energy:8, expression:6, density:9 },
+      { text:"Fact Check (不可思议)", neo:7, energy:8, expression:7, density:6 }
+    ]},
+  "dream": { id:"branch_dream", text:"在NCT DREAM的歌中，哪首更符合你的听觉偏好？",
+    options:[
+      { text:"味 (Hot Sauce)", neo:6, energy:7, expression:6, density:7 },
+      { text:"Hello Future", neo:5, energy:2, expression:4, density:5 },
+      { text:"我们的季节 (My Youth)", neo:2, energy:2, expression:3, density:3 },
+      { text:"Beatbox", neo:4, energy:5, expression:4, density:5 }
+    ]},
+  "wayv": { id:"branch_wayv", text:"在WayV的歌中，哪首更符合你的听觉偏好？",
+    options:[
+      { text:"Phantom", neo:8, energy:7, expression:6, density:8 },
+      { text:"时间倒流 (Turn Back Time)", neo:8, energy:8, expression:7, density:7 },
+      { text:"秘语 (Love Talk)", neo:6, energy:4, expression:5, density:6 },
+      { text:"无翼而飞 (Take Off)", neo:7, energy:7, expression:6, density:7 }
+    ]},
+  "u": { id:"branch_u", text:"在NCT U的歌中，哪首更符合你的听觉偏好？",
+    options:[
+      { text:"BOSS", neo:7, energy:7, expression:7, density:8 },
+      { text:"第七感 (The 7th Sense)", neo:9, energy:4, expression:3, density:2 },
+      { text:"Make A Wish (Birthday Song)", neo:7, energy:7, expression:7, density:8 },
+      { text:"Without You", neo:3, energy:5, expression:2, density:4 }
+    ]},
+  "wish": { id:"branch_wish", text:"在NCT WISH的歌中，哪首更符合你的听觉偏好？",
+    options:[
+      { text:"WISH", neo:3, energy:2, expression:4, density:3 },
+      { text:"Steady", neo:4, energy:3, expression:3, density:4 },
+      { text:"Songbird", neo:4, energy:2, expression:4, density:4 },
+      { text:"Surf", neo:3, energy:2, expression:3, density:3 }
+    ]}
+};
+
+const textQuestions = {
+  scene_main: {
+    id:"scene_main", type:"scenario_main", text:"你通常会在什么场景下听划曲？",
+    options:[
+      { id:"scene_A", text:"一个人坐在窗边，听雨发呆", next:"scene_A_branch" },
+      { id:"scene_B", text:"运动锻炼，需要鼓点和力量", next:"scene_B_branch" },
+      { id:"scene_C", text:"深夜独自走路，街上很安静", next:"scene_C_branch" },
+      { id:"scene_D", text:"踏上崭新的旅程，像翻开地图上未被标注的一角", next:"scene_D_branch" }
+    ]
+  },
+  scene_A_branch: { id:"scene_A_branch", type:"scenario_branch", text:"你更想听到雨落在什么材质上的声音？",
+    options:[
+      { text:"玻璃窗，每滴都清晰可数", neo:3, energy:3, expression:3, density:3 },
+      { text:"铁皮屋顶，噼里啪啦混着回响", neo:6, energy:9, expression:6, density:7 },
+      { text:"树叶，沙沙的细密摩擦声", neo:3, energy:3, expression:4, density:4 },
+      { text:"雨伞布，沉闷又温柔", neo:4, energy:3, expression:3, density:3 }
+    ]},
+  scene_B_branch: { id:"scene_B_branch", type:"scenario_branch", text:"锻炼时你更倾向哪种节奏感？",
+    options:[
+      { text:"匀速稳定，像长跑的呼吸", neo:3, energy:4, expression:4, density:3 },
+      { text:"爆发间歇，重拍砸在极限瞬间", neo:7, energy:10, expression:9, density:7 },
+      { text:"自由律动，让身体自己找到groove", neo:6, energy:7, expression:6, density:6 },
+      { text:"战斗感强烈，每组动作都想挥拳", neo:8, energy:10, expression:9, density:8 }
+    ]},
+  scene_C_branch: { id:"scene_C_branch", type:"scenario_branch", text:"深夜走路时，耳机里的声音应该给你什么感觉？",
+    options:[
+      { text:"安静留白，心跳比鼓点更清晰", neo:4, energy:1, expression:2, density:1 },
+      { text:"情绪层层堆叠，最后释放在夜空", neo:5, energy:3, expression:3, density:5 },
+      { text:"节奏重拍陪你每一步，像整条街的灯光", neo:7, energy:8, expression:7, density:7 },
+      { text:"实验音效交错，像走进一场赛博朋克的梦境", neo:9, energy:7, expression:6, density:8 }
+    ]},
+  scene_D_branch: { id:"scene_D_branch", type:"scenario_branch", text:"走进一片新土地，你希望故事从哪一页开始写起？",
+    options:[
+      { text:"神秘未知，像推开一扇暗门", neo:8, energy:5, expression:5, density:6 },
+      { text:"自信步伐，整条路都是我的T台", neo:7, energy:9, expression:8, density:8 },
+      { text:"轻快好奇，每个转角都有惊喜", neo:4, energy:3, expression:4, density:4 },
+      { text:"温柔治愈，像被阳光轻轻拥抱", neo:3, energy:2, expression:3, density:3 }
+    ]},
+  mood_main: {
+    id:"mood_main", type:"scenario_main", text:"你想起划曲时心情一般是？",
+    options:[
+      { id:"mood_A", text:"心里空空的，想被填满", next:"mood_A_branch" },
+      { id:"mood_B", text:"身体沉沉的，想被托起", next:"mood_B_branch" },
+      { id:"mood_C", text:"喜悦，想跟着节奏雀跃", next:"mood_C_branch" },
+      { id:"mood_D", text:"平静，想沉浸在自己的世界里", next:"mood_D_branch" }
+    ]
+  },
+  mood_A_branch: { id:"mood_A_branch", type:"scenario_branch", text:"空虚时，你更想听到什么？",
+    options:[
+      { text:"低语般的留白，让空洞被温柔接住", neo:4, energy:3, expression:3, density:3 },
+      { text:"情绪层层递进，慢慢填满胸腔", neo:5, energy:4, expression:4, density:6 },
+      { text:"突然的重拍，像一记心跳惊醒自己", neo:7, energy:8, expression:7, density:5 },
+      { text:"华丽复杂的编曲，让大脑来不及空虚", neo:8, energy:7, expression:6, density:9 }
+    ]},
+  mood_B_branch: { id:"mood_B_branch", type:"scenario_branch", text:"疲惫时，你更希望音乐怎么对待你？",
+    options:[
+      { text:"轻轻拍打后背，像一杯温热的茶", neo:2, energy:2, expression:2, density:2 },
+      { text:"帮你喊出压抑，感性高音刺破倦意", neo:4, energy:5, expression:3, density:4 },
+      { text:"给你力量，一拳打碎疲惫感", neo:7, energy:9, expression:9, density:6 },
+      { text:"用密集的音符转移注意力，忘记累", neo:6, energy:7, expression:6, density:8 }
+    ]},
+  mood_C_branch: { id:"mood_C_branch", type:"scenario_branch", text:"喜悦时，你希望音乐是什么颜色？",
+    options:[
+      { text:"浅绿色，清爽的泡泡糖味", neo:3, energy:1, expression:3, density:3 },
+      { text:"金黄色，自信闪耀的聚光灯", neo:7, energy:8, expression:8, density:8 },
+      { text:"彩虹色，丰富热闹的庆典", neo:6, energy:6, expression:6, density:7 },
+      { text:"暖橙色，像夕阳下的拥抱，温柔又感动", neo:4, energy:2, expression:2, density:3 }
+    ]},
+  mood_D_branch: { id:"mood_D_branch", type:"scenario_branch", text:"平静时，你更享受哪种声音纹理？",
+    options:[
+      { text:"极简的钢琴或吉他，留白多于音符", neo:3, energy:1, expression:2, density:1 },
+      { text:"流畅的旋律线，像水慢慢流过", neo:4, energy:2, expression:3, density:4 },
+      { text:"规律的低频节奏，像稳定的心跳", neo:5, energy:5, expression:5, density:4 },
+      { text:"氛围感电子音效，漂浮在空气里", neo:8, energy:4, expression:4, density:7 }
+    ]},
+  explore_main: {
+    id:"explore_main", type:"scenario_main", text:"听划曲时，你更想进入哪种世界？",
+    options:[
+      { id:"exp_A", text:"未来都市，霓虹与科技", next:"exp_A_branch" },
+      { id:"exp_B", text:"自然旷野，风与星辰", next:"exp_B_branch" },
+      { id:"exp_C", text:"可以自由摇晃的派对", next:"exp_C_branch" },
+      { id:"exp_D", text:"一句歌词就能戳中内心", next:"exp_D_branch" }
+    ]
+  },
+  exp_A_branch: { id:"exp_A_branch", type:"scenario_branch", text:"未来都市里你更在意？",
+    options:[
+      { text:"奇异实验音效", neo:9, energy:6, expression:5, density:8 },
+      { text:"利落强烈节奏", neo:7, energy:9, expression:8, density:7 },
+      { text:"空旷留白空间感", neo:6, energy:2, expression:3, density:3 },
+      { text:"华丽赛博编曲", neo:8, energy:7, expression:6, density:9 }
+    ]},
+  exp_B_branch: { id:"exp_B_branch", type:"scenario_branch", text:"自然旷野更吸引你的是？",
+    options:[
+      { text:"清晨微风清爽感", neo:2, energy:2, expression:3, density:2 },
+      { text:"大海辽阔治愈", neo:3, energy:2, expression:4, density:3 },
+      { text:"森林神秘氛围", neo:6, energy:4, expression:5, density:6 },
+      { text:"山野阳光温暖", neo:4, energy:3, expression:3, density:4 }
+    ]},
+  exp_C_branch: { id:"exp_C_branch", type:"scenario_branch", text:"你想怎么摇晃？",
+    options:[
+      { text:"轻轻点头，踩小碎步", neo:3, energy:3, expression:4, density:3 },
+      { text:"全身自由舞动，不管姿势", neo:5, energy:7, expression:6, density:5 },
+      { text:"重拍时狠狠甩头", neo:7, energy:10, expression:8, density:7 },
+      { text:"律动从脚底传到指尖", neo:6, energy:7, expression:6, density:6 }
+    ]},
+  exp_D_branch: { id:"exp_D_branch", type:"scenario_branch", text:"那句歌词更可能是？",
+    options:[
+      { text:"“我不会停下，直到看见光” — BOSS", neo:7, energy:8, expression:7, density:6 },
+      { text:"“你是我最后的梦境” — Love Talk", neo:5, energy:4, expression:4, density:5 },
+      { text:"“在混乱中寻找秩序” — 第七感", neo:8, energy:6, expression:6, density:7 },
+      { text:"“回忆像星光，在时间尽头闪烁” — 我们的季节", neo:3, energy:2, expression:3, density:3 }
+    ]},
+  state_main: {
+    id:"state_main", type:"scenario_main", text:"听完一首划曲后，你觉得自己更像哪种状态？",
+    options:[
+      { id:"state_A", text:"被雨水洗过的叶子", next:"state_A_branch" },
+      { id:"state_B", text:"刚充完电的电池", next:"state_B_branch" },
+      { id:"state_C", text:"找到方向的夜行者", next:"state_C_branch" },
+      { id:"state_D", text:"坐在篝火旁讲故事的人", next:"state_D_branch" }
+    ]
+  },
+  state_A_branch: { id:"state_A_branch", type:"scenario_branch", text:"那片叶子是什么样子的？",
+    options:[
+      { text:"嫩绿透亮，还挂着水珠", neo:3, energy:2, expression:3, density:2 },
+      { text:"深绿厚实，充满生命力", neo:5, energy:4, expression:4, density:5 },
+      { text:"边缘带点焦黄，有故事感", neo:6, energy:3, expression:5, density:4 },
+      { text:"细小轻盈，随风飘动", neo:4, energy:2, expression:3, density:2 }
+    ]},
+  state_B_branch: { id:"state_B_branch", type:"scenario_branch", text:"电量充满后你最想做什么？",
+    options:[
+      { text:"立刻出门，去创造点什么", neo:7, energy:9, expression:7, density:6 },
+      { text:"安静待着，享受平静", neo:3, energy:2, expression:3, density:2 },
+      { text:"和朋友分享此刻心情", neo:5, energy:6, expression:5, density:5 },
+      { text:"戴上耳机继续听下一首", neo:6, energy:5, expression:6, density:7 }
+    ]},
+  state_C_branch: { id:"state_C_branch", type:"scenario_branch", text:"夜行者的光来自哪里？",
+    options:[
+      { text:"远处城市的霓虹", neo:8, energy:7, expression:6, density:8 },
+      { text:"自己手里的灯", neo:6, energy:7, expression:5, density:5 },
+      { text:"月光与星光", neo:4, energy:2, expression:3, density:3 },
+      { text:"内心不灭的火焰", neo:6, energy:9, expression:7, density:6 }
+    ]},
+  state_D_branch: { id:"state_D_branch", type:"scenario_branch", text:"你会讲什么样的故事？",
+    options:[
+      { text:"温柔治愈的回忆", neo:3, energy:2, expression:3, density:3 },
+      { text:"冒险与未来的幻想", neo:7, energy:7, expression:6, density:7 },
+      { text:"强烈又帅气的自我宣言", neo:7, energy:9, expression:8, density:6 },
+      { text:"神秘又浪漫的梦境", neo:6, energy:4, expression:5, density:5 }
+    ]},
+  time_main: {
+    id:"time_main", type:"scenario_main", text:"听完这首歌，你觉得自己被带到了哪个时刻？",
+    options:[
+      { id:"time_A", text:"很久以前的某个夏天", next:"time_A_branch" },
+      { id:"time_B", text:"昨天，但好像已经过去了很久", next:"time_B_branch" },
+      { id:"time_C", text:"明天，还没发生却似曾相识", next:"time_C_branch" },
+      { id:"time_D", text:"现在，但时间好像停住了", next:"time_D_branch" }
+    ]
+  },
+  time_A_branch: { id:"time_A_branch", type:"scenario_branch", text:"那个夏天是什么样子的？",
+    options:[
+      { text:"阳光刺眼，蝉鸣刺耳", neo:6, energy:7, expression:5, density:6 },
+      { text:"傍晚的风，吹干汗湿的头发", neo:3, energy:2, expression:4, density:3 },
+      { text:"星空下，和谁说了再见", neo:4, energy:2, expression:6, density:4 },
+      { text:"什么都不记得，只有温度还在", neo:2, energy:1, expression:3, density:2 }
+    ]},
+  time_B_branch: { id:"time_B_branch", type:"scenario_branch", text:"昨天的那件事，你还想再经历一次吗？",
+    options:[
+      { text:"想，但不敢回去", neo:4, energy:3, expression:5, density:4 },
+      { text:"不想，但忘不掉", neo:3, energy:2, expression:6, density:3 },
+      { text:"无所谓，反正都过去了", neo:2, energy:2, expression:2, density:2 },
+      { text:"想，而且我觉得可以重来", neo:7, energy:7, expression:6, density:6 }
+    ]},
+  time_C_branch: { id:"time_C_branch", type:"scenario_branch", text:"你觉得明天会发生什么？",
+    options:[
+      { text:"一场惊喜", neo:6, energy:8, expression:6, density:7 },
+      { text:"一次告别", neo:5, energy:3, expression:5, density:5 },
+      { text:"一个重复的今天", neo:3, energy:2, expression:3, density:3 },
+      { text:"什么都不会发生，但我准备好了", neo:4, energy:5, expression:4, density:4 }
+    ]},
+  time_D_branch: { id:"time_D_branch", type:"scenario_branch", text:"停住的瞬间，你最想做什么？",
+    options:[
+      { text:"好好看看周围", neo:4, energy:2, expression:3, density:4 },
+      { text:"闭上眼睛", neo:3, energy:1, expression:2, density:2 },
+      { text:"跑起来", neo:6, energy:9, expression:7, density:6 },
+      { text:"什么都不做，就这样待着", neo:2, energy:1, expression:2, density:1 }
+    ]},
+  narrative_main: {
+    id:"narrative_main", type:"scenario_main", text:"如果划曲是一扇门，门后是什么？",
+    options:[
+      { id:"nar_A", text:"一条长长的走廊，墙上挂满画", next:"nar_A_branch" },
+      { id:"nar_B", text:"一个没有边界的空间，只有颜色在流动", next:"nar_B_branch" },
+      { id:"nar_C", text:"一间小房间，只有一把椅子和一扇窗", next:"nar_C_branch" },
+      { id:"nar_D", text:"门后还是门，不知道通向哪里", next:"nar_D_branch" }
+    ]
+  },
+  nar_A_branch: { id:"nar_A_branch", type:"scenario_branch", text:"画里画的是什么？",
+    options:[
+      { text:"一个完整的故事，从开头到结尾", neo:5, energy:4, expression:6, density:6 },
+      { text:"碎片，拼不出全貌", neo:6, energy:3, expression:5, density:5 },
+      { text:"同一个画面，但每次看都不一样", neo:7, energy:5, expression:6, density:7 },
+      { text:"一片空白，标题很长", neo:4, energy:2, expression:4, density:3 }
+    ]},
+  nar_B_branch: { id:"nar_B_branch", type:"scenario_branch", text:"你更愿意哪种颜色多一些？",
+    options:[
+      { text:"蓝色，让人安静", neo:3, energy:2, expression:3, density:4 },
+      { text:"红色，让人心跳", neo:6, energy:8, expression:7, density:6 },
+      { text:"紫色，分不清是冷是暖", neo:5, energy:5, expression:5, density:6 },
+      { text:"透明，没有颜色", neo:4, energy:2, expression:3, density:2 }
+    ]},
+  nar_C_branch: { id:"nar_C_branch", type:"scenario_branch", text:"窗外的风景是？",
+    options:[
+      { text:"一片海，有船在远处", neo:4, energy:3, expression:5, density:5 },
+      { text:"一座城市，灯火通明", neo:6, energy:7, expression:6, density:7 },
+      { text:"一片森林，风吹树叶", neo:3, energy:2, expression:4, density:4 },
+      { text:"什么都没有，只有光", neo:5, energy:2, expression:3, density:3 }
+    ]},
+  nar_D_branch: { id:"nar_D_branch", type:"scenario_branch", text:"你会推开下一扇门吗？",
+    options:[
+      { text:"会，一直推下去", neo:8, energy:7, expression:6, density:7 },
+      { text:"会，但先等一下", neo:5, energy:4, expression:5, density:5 },
+      { text:"不会，就在这里停下", neo:3, energy:2, expression:3, density:3 },
+      { text:"看心情，也许下一秒就推", neo:6, energy:6, expression:5, density:6 }
+    ]},
+  rain_main: {
+    id:"rain_main", type:"scenario_main", text:"如果把你喜欢的音乐比作一场雨，你更希望它是？",
+    options:[
+      { id:"rain_A", text:"毛毛雨，轻轻落在皮肤上" },
+      { id:"rain_B", text:"小雨淅沥，打在树叶上沙沙响" },
+      { id:"rain_C", text:"中雨不断，窗玻璃上水流成线" },
+      { id:"rain_D", text:"暴雨如注，天地一色" }
+    ]
+  }
+};
+
+const typeDescMap = {
+  "NRSM": "实验性留白，感性简约，像未完成的诗",
+  "NRSG": "实验感性，华丽中藏着细腻情感",
+  "NRFM": "实验清爽力量，简约却炸裂",
+  "NRFG": "高能实验，清爽力量与华丽碰撞",
+  "NISM": "强烈实验中的感性留白，矛盾迷人",
+  "NISG": "强烈实验，感性被华丽包裹的神秘感",
+  "NIFM": "高实验、强烈力量，简约怪诞",
+  "NIFG": "极致NEO划味华丽力量，霸气全开",
+  "nRSM": "清新少年，简约感性，像初春的微风",
+  "nRSG": "清爽感性，编曲轻盈，充满希望的光芒",
+  "nRFM": "清爽力量，简约律动，温暖的陪伴感",
+  "nRFG": "清爽力量华丽，自信轻奢",
+  "nISM": "强烈感性但简约，内敛温暖",
+  "nISG": "强烈感性加华丽，性感氛围",
+  "nIFM": "强烈力量简约，向上奔跑",
+  "nIFG": "传统框架下的华丽力量，张扬气场"
+};
+
+function getCodeFromAvg(avg) {
+  const neo = avg.neoFlavor >= 4.46 ? "N" : "n";
+  const eng = avg.energy >= 4.46 ? "I" : "R";
+  const exp = avg.expression >= 4.46 ? "F" : "S";
+  const den = avg.density >= 4.46 ? "G" : "M";
+  return neo + eng + exp + den;
+}
+
+function getTypeTeam(code) {
+  const map = {
+    "NRSM":"NCT U","NRSG":"NCT U","NRFM":"NCT 127","NRFG":"NCT 127",
+    "NISM":"NCT U","NISG":"WayV","NIFM":"NCT 127","NIFG":"WayV",
+    "nRSM":"NCT WISH","nRSG":"NCT WISH","nRFM":"NCT WISH","nRFG":"NCT 127",
+    "nISM":"NCT DREAM","nISG":"WayV","nIFM":"NCT DREAM","nIFG":"NCT 127"
+  };
+  return map[code] || "NCT U";
+}
+
+function getFinalTeam(typeTeam, teamProb) {
+  if (!teamProb) return typeTeam;
+  const teams = ["127","dream","wayv","u","wish"];
+  const nameMap = {"127":"NCT 127","dream":"NCT DREAM","wayv":"WayV","u":"NCT U","wish":"NCT WISH"};
+  let typeKey = null;
+  for (let [k,v] of Object.entries(nameMap)) if (v === typeTeam) { typeKey = k; break; }
+  if (!typeKey) typeKey = "u";
+  let bestKey = typeKey, bestScore = -1;
+  for (let t of teams) {
+    let score = (t === typeKey ? 0.75 : 0) + (teamProb[t] || 0) * 0.25;
+    if (score > bestScore) { bestScore = score; bestKey = t; }
+  }
+  return nameMap[bestKey];
+}
+
+function getBestSongInTeam(teamKey, avg, selectedNames, rainChoice) {
+  let candidates = songLibrary.filter(s => s.team === teamKey);
+  if (candidates.length === 0) candidates = songLibrary;
+  let best = null, bestDist = Infinity;
+  for (let s of candidates) {
+    let dist = Math.abs(s.neo - avg.neoFlavor) * 2 + Math.abs(s.energy - avg.energy) * 2 + Math.abs(s.expression - avg.expression) * 1 + Math.abs(s.density - avg.density) * 1;
+    if (selectedNames.some(n => s.name.includes(n) || n.includes(s.name.split('(')[0].trim()))) dist *= 0.9;
+    if (rainChoice === 'A' && (s.energy <= 3 || s.energy >= 7)) {
+      if (s.energy <= 3) dist *= 0.9;
+      else if (s.energy >= 7) dist *= 1.1;
+    }
+    if (rainChoice === 'D' && (s.energy >= 7 || s.energy <= 3)) {
+      if (s.energy >= 7) dist *= 0.8;
+      else if (s.energy <= 3) dist *= 1.2;
+    }
+    if (dist < bestDist) { bestDist = dist; best = s; }
+  }
+  return best;
+}
+
+function getFarthestSong(avg) {
+  let farthest = null, maxDist = -1;
+  for (let s of songLibrary) {
+    let dist = Math.abs(s.neo - avg.neoFlavor) * 2 + Math.abs(s.energy - avg.energy) * 2 + Math.abs(s.expression - avg.expression) + Math.abs(s.density - avg.density);
+    if (dist > maxDist) { maxDist = dist; farthest = s; }
+  }
+  return farthest;
+}
+
+function calculateCredibility(answers) {
+  const valid = answers.filter(a => a.neo != null);
+  const n = valid.length;
+  if (n === 0) return 0;
+  function std(arr) {
+    const mean = arr.reduce((a,b)=>a+b,0)/arr.length;
+    return Math.sqrt(arr.reduce((a,b)=>a+(b-mean)**2,0)/arr.length);
+  }
+  const ns = valid.map(a=>a.neo), es = valid.map(a=>a.energy), xs = valid.map(a=>a.expression), ds = valid.map(a=>a.density);
+  const sNeo = std(ns), sE = std(es), sX = std(xs), sD = std(ds);
+  const avgStd = (sNeo + sE + sX + sD) / 4;
+  let score1 = avgStd <= 1 ? 35 : avgStd <= 2 ? 28 : avgStd <= 3 ? 21 : avgStd <= 4 ? 14 : 0;
+  const tp = valid.map(a=>a.neo+a.energy+a.expression+a.density);
+  const stdTotal = std(tp);
+  let score2_2 = stdTotal <= 3 ? 20 : stdTotal <= 5 ? 12 : 0;
+  const optionLetters = valid.map(a => {
+    for (let q of [mainQuestions, similarBranches, teamBranch, textQuestions]) {
+      for (let k in q) {
+        if (q[k].options && q[k].options.some(o => o.text === a.optionText || (o.id && o.id === a.optionId))) {
+          const idx = q[k].options.findIndex(o => o.text === a.optionText || o.id === a.optionId);
+          return ['A','B','C','D'][idx] || 'A';
+        }
+      }
+    }
+    return 'A';
+  });
+  const freq = {};
+  optionLetters.forEach(c => freq[c] = (freq[c]||0)+1);
+  const counts = Object.values(freq).sort((a,b)=>b-a);
+  let score2_1 = counts.length === 1 ? 0 : counts.length <= 2 ? 7 : 15;
+  let score2 = Math.min(score2_1 + score2_2, 35);
+  const sumN = ns.reduce((a,b)=>a+b,0), sumE = es.reduce((a,b)=>a+b,0), sumX = xs.reduce((a,b)=>a+b,0), sumD = ds.reduce((a,b)=>a+b,0);
+  const maxN = n*10, maxE = n*10, maxX = n*10, maxD = n*10;
+  const ext = (s,m) => s >= m*0.9 || s <= m*0.1;
+  const ec = [ext(sumN,maxN), ext(sumE,maxE), ext(sumX,maxX), ext(sumD,maxD)].filter(Boolean).length;
+  let score3 = ec === 0 ? 30 : ec === 1 ? 18 : ec === 2 ? 9 : 0;
+  return Math.min(100, Math.max(0, Math.round(score1 + score2 + score3)));
+}
+
+function dimBar(l, r, p) {
+  return `<div class="dim-item"><div class="dim-label"><span>${l}</span><span>${r}</span></div><div class="dim-progress"><div class="dim-fill" style="width:${p}%"></div></div></div>`;
+}
+
+function generatePoem(avg, selectedMoments, code) {
+  const neoVal = avg.neoFlavor;
+  const energyVal = avg.energy;
+  const exprVal = avg.expression;
+  const densityVal = avg.density;
+  const neoDesc = neoVal >= 7 ? "黎明前未命名的色彩" : (neoVal >= 4 ? "雨后初晴的湿润空气" : "老唱片里的沙沙声");
+  const energyDesc = energyVal >= 7 ? "暴雨砸在铁皮屋顶" : (energyVal >= 4 ? "春日的风时缓时急" : "蒲公英轻轻飘散");
+  const exprDesc = exprVal >= 7 ? "举重时肌肉的颤抖" : (exprVal >= 4 ? "篝火旁分享的故事" : "旧照片的泛黄边角");
+  const densityDesc = densityVal >= 7 ? "星云的漩涡" : (densityVal >= 4 ? "刺绣上的碎花" : "水墨画的留白");
+  let momentText = "";
+  if (selectedMoments.length > 0) {
+    const randomMoment = selectedMoments[Math.floor(Math.random() * selectedMoments.length)];
+    momentText = `\n你曾在「${randomMoment}」中停留，`;
+  }
+  let poem = `${momentText}你的音乐世界像一场${neoDesc}，\n能量如${energyDesc}，\n情感是${exprDesc}，\n编曲似${densityDesc}。\n这样的你，适合在${code}的旋律里，听见自己的回响。`;
+  return poem;
+}
+
+function applyDynamicBackground(team) {
+  const body = document.body;
+  let bgColor = "#aaff99";
+  switch(team) {
+    case "NCT 127": bgColor = "#88cc77"; break;
+    case "NCT DREAM": bgColor = "#bbffaa"; break;
+    case "WayV": bgColor = "#77aa66"; break;
+    case "NCT U": bgColor = "#99dd88"; break;
+    case "NCT WISH": bgColor = "#ccffbb"; break;
+    default: bgColor = "#aaff99";
+  }
+  body.style.backgroundColor = bgColor;
+}
+
+function checkEasterEggs(selectedSongNames, songTeams) {
+  let eggs = [];
+  const allSameTeam = songTeams.length > 0 && songTeams.every(t => t === songTeams[0]);
+  if (allSameTeam) {
+    const teamKey = songTeams[0];
+    let teamName = "", teamAlias = "";
+    if (teamKey === "127") { teamName = "NCT 127"; teamAlias = "数"; }
+    else if (teamKey === "dream") { teamName = "NCT DREAM"; teamAlias = "梦"; }
+    else if (teamKey === "wayv") { teamName = "WayV"; teamAlias = "威"; }
+    else if (teamKey === "u") { teamName = "NCT U"; teamAlias = "U"; }
+    else if (teamKey === "wish") { teamName = "NCT WISH"; teamAlias = "愿"; }
+    eggs.push(`💚 你只选择了 ${teamName} 的歌曲，是完全的${teamAlias}珍妮！能感受到你超级爱 ${teamName} 啦~ 💚`);
+  }
+  if (selectedSongNames.includes("Sticker") && selectedSongNames.includes("Cherry Bomb")) {
+    eggs.push(`💚 你同时选择了 Sticker 和 Cherry Bomb，这是只有绝对NEO西珍妮才能触发的隐藏组合！ NEO 精神在你心中燃烧 💚`);
+  }
+  if (selectedSongNames.includes("第七感 (The 7th Sense)") && selectedSongNames.includes("BOSS") && selectedSongNames.includes("Make A Wish (Birthday Song)")) {
+    eggs.push(`💚 你同时选择了第七感、BOSS 和 Make A Wish，这是只有U队真爱才能触发的隐藏组合！U队灵魂与你共振 💚`);
+  }
+  const allFive = ["127","dream","wayv","u","wish"];
+  const hasAll = allFive.every(t => songTeams.includes(t));
+  if (hasAll) {
+    eggs.push(`💚 你集齐了五个分队的歌曲，是真正的NCT团粉！NCT♾️NCTzen 💚`);
+  }
+  return eggs;
+}
+
+let currentIndex = 0, questionList = [], userAnswers = [], teamScore = { "127":0, "dream":0, "wayv":0, "u":0, "wish":0 }, totalTeamVotes = 0, mainResult = null, totalQuestions = 0, avgCache = null;
+
+function init() {
+  questionList = [];
+  for (let i = 0; i < mainQuestions.length; i++) {
+    questionList.push({ type: "main", data: mainQuestions[i] });
+    questionList.push({ type: "similar", data: similarBranches[mainQuestions[i].id] });
+  }
+  currentIndex = 0;
+  userAnswers = [];
+  teamScore = { "127":0, "dream":0, "wayv":0, "u":0, "wish":0 };
+  totalTeamVotes = 0;
+  selectedSongNames = [];
+  userRainChoice = null;
+  userSelectedMoments = [];
+  totalQuestions = questionList.length;
+  document.getElementById('nextBtn').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (currentIndex >= questionList.length) { showResult(); return; }
+  const item = questionList[currentIndex];
+  const q = item.data;
+  let html = `<div class="question-card"><div class="question-text">${q.text}</div><div class="options">`;
+  for (let i = 0; i < q.options.length; i++) {
+    html += `<div class="option" data-opt-index="${i}">${q.options[i].text}</div>`;
+  }
+  html += `</div></div>`;
+  document.getElementById('questionsArea').innerHTML = html;
+  document.querySelectorAll('.option').forEach(el => {
+    el.onclick = () => {
+      document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      vibrate();
+    };
+  });
+  document.getElementById('progressFill').style.width = ((currentIndex / totalQuestions) * 100) + '%';
+}
+
+function nextQuestion() {
+  vibrate();
+  const sel = document.querySelector('.option.selected');
+  if (!sel) { alert("请选择一个选项"); return; }
+  const idx = parseInt(sel.dataset.optIndex);
+  const item = questionList[currentIndex];
+  const q = item.data;
+  const opt = q.options[idx];
+  const answer = {
+    questionId: q.id,
+    optionText: opt.text,
+    neo: opt.neo || 0,
+    energy: opt.energy || 0,
+    expression: opt.expression || 0,
+    density: opt.density || 0
+  };
+  if (item.type === "main" || item.type === "similar") {
+    answer.team = opt.team;
+    teamScore[opt.team]++;
+    totalTeamVotes++;
+    let songName = opt.text.split("–")[0].trim();
+    if (!selectedSongNames.includes(songName)) selectedSongNames.push(songName);
+    userSelectedMoments.push(songName);
+  } else if (item.type === "teamBranch") {
+    let songName = opt.text;
+    if (!selectedSongNames.includes(songName)) selectedSongNames.push(songName);
+    userSelectedMoments.push(songName);
+    const branchTeam = (() => {
+      for (let t in teamBranch) if (teamBranch[t].id === q.id) return t;
+      return null;
+    })();
+    if (branchTeam) answer.team = branchTeam;
+  } else if (item.type === "text" && opt.next) {
+    const nextQ = textQuestions[opt.next];
+    if (nextQ) questionList.splice(currentIndex + 1, 0, { type: "text", data: nextQ });
+    userSelectedMoments.push(opt.text);
+  } else if (item.type === "text" && q.id === "rain_main") {
+    userRainChoice = ['A','B','C','D'][idx];
+    userSelectedMoments.push(opt.text);
+  } else if (item.type === "text") {
+    userSelectedMoments.push(opt.text);
+  }
+  userAnswers.push(answer);
+  currentIndex++;
+  if (currentIndex === 6 && questionList.length === 6) {
+    let topTeam = "u", maxCount = -1;
+    for (let t in teamScore) if (teamScore[t] > maxCount) { maxCount = teamScore[t]; topTeam = t; }
+    const branch = teamBranch[topTeam];
+    if (branch) questionList.push({ type: "teamBranch", data: branch });
+    const textOrder = ["scene_main", "mood_main", "explore_main", "state_main", "time_main", "narrative_main", "rain_main"];
+    for (let id of textOrder) {
+      const tq = textQuestions[id];
+      if (tq) questionList.push({ type: "text", data: tq });
+    }
+    totalQuestions = questionList.length;
+  }
+  if (currentIndex < questionList.length) renderQuestion();
+  else {
+    document.getElementById('questionsArea').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'none';
+    showResult();
+  }
+}
+
+function showResult() {
+  let sumN=0, sumE=0, sumX=0, sumD=0;
+  for (let a of userAnswers) { sumN+=a.neo; sumE+=a.energy; sumX+=a.expression; sumD+=a.density; }
+  const n = userAnswers.length || 1;
+  let avg = { neoFlavor: sumN/n, energy: sumE/n, expression: sumX/n, density: sumD/n };
+  avg.neoFlavor = Math.min(10, Math.max(0, avg.neoFlavor + SHIFT.neo));
+  avg.energy = Math.min(10, Math.max(0, avg.energy + SHIFT.energy));
+  avg.expression = Math.min(10, Math.max(0, avg.expression + SHIFT.expression));
+  avg.density = Math.min(10, Math.max(0, avg.density + SHIFT.density));
+  avgCache = avg;
+  const code = getCodeFromAvg(avg);
+  const typeTeam = getTypeTeam(code);
+  
+  let finalTeam = null;
+  let finalTeamKey = null;
+  const songChoices = userAnswers.filter(a => a.team && (a.questionId.startsWith("main") || a.questionId.startsWith("sim")));
+  const teamCount = { "127":0, "dream":0, "wayv":0, "u":0, "wish":0 };
+  for (let a of songChoices) {
+    if (a.team) teamCount[a.team]++;
+  }
+  let maxTeam = null, maxCount = 0;
+  for (let t in teamCount) {
+    if (teamCount[t] > maxCount) { maxCount = teamCount[t]; maxTeam = t; }
+  }
+  if (maxCount >= 5) {
+    const teamNameMap = {"127":"NCT 127","dream":"NCT DREAM","wayv":"WayV","u":"NCT U","wish":"NCT WISH"};
+    finalTeam = teamNameMap[maxTeam];
+    finalTeamKey = maxTeam;
+  } else {
+    let teamProb = null;
+    if (totalTeamVotes > 0) {
+      teamProb = {};
+      for (let t in teamScore) teamProb[t] = teamScore[t] / totalTeamVotes;
+    }
+    finalTeam = getFinalTeam(typeTeam, teamProb);
+    for (let k in teamBranch) {
+      if (teamBranch[k].id === finalTeam.replace(" ", "_").toLowerCase() || finalTeam.includes("127") && k==="127" || finalTeam.includes("DREAM") && k==="dream" || finalTeam.includes("WayV") && k==="wayv" || finalTeam.includes("U") && k==="u" || finalTeam.includes("WISH") && k==="wish") {
+        finalTeamKey = k;
+        break;
+      }
+    }
+  }
+  const bestSong = getBestSongInTeam(finalTeamKey, avg, selectedSongNames, userRainChoice);
+  const description = typeDescMap[code] || "独特划味";
+  const cr = calculateCredibility(userAnswers);
+  const neoPct = avg.neoFlavor*10, engPct = avg.energy*10, expPct = avg.expression*10, denPct = avg.density*10;
+  const dimBars = `<div class="dim-bar-group">${dimBar(" ", "NEO划味", neoPct)}${dimBar("清爽R", "I强烈", engPct)}${dimBar("感性S", "F力量", expPct)}${dimBar("简约M", "G华丽", denPct)}</div>`;
+  const crBar = `<div class="cr-box"><div class="cr-text">结果可信度：${cr}%</div><div class="dim-progress"><div class="dim-fill" style="width:${cr}%; background:#3c8a29"></div></div><div class="cr-note">以上由西珍妮作答过程计算得</div></div>`;
+  
+  const poem = generatePoem(avg, userSelectedMoments.slice(0, 12), code);
+  const songTeams = userAnswers.filter(a => a.team && (a.questionId.startsWith("main") || a.questionId.startsWith("sim"))).map(a => a.team);
+  const easterEggs = checkEasterEggs(selectedSongNames, songTeams);
+  let easterHtml = "";
+  if (easterEggs.length) {
+    easterHtml = `<div class="easter-egg">${easterEggs.join('<br>')}</div>`;
+  }
+  
+  document.getElementById('resultArea').innerHTML = `
+    <div class="result-area" id="cardArea">
+      <h2>你的划曲风格结果</h2>
+      <div class="result-code">${code}</div>
+      <p class="result-desc"><strong>${finalTeam}</strong> · ${bestSong.name}</p>
+      <p class="result-desc">${description}</p>
+      ${easterHtml}
+      <div class="poem">${poem}</div>
+      <hr>${dimBars}${crBar}
+      <p style="margin-top:12px; font-size:1rem; color:#3c8a29; font-weight:bold;">可以尝试听听风格差异大的划曲～</p>
+    </div>
+    <div class="btn-group">
+      <button onclick="shareCard()">分享卡片</button>
+      <button onclick="shareTest()">分享测试</button>
+      <button onclick="showOppositeResult()">反差最大风格</button>
+      <button onclick="restartTest()">重新测试</button>
+    </div>`;
+  document.getElementById('resultArea').style.display = 'block';
+  applyDynamicBackground(finalTeam);
+  mainResult = { code, finalTeam, bestSong, description };
+}
+
+function shareCard() {
+  const element = document.getElementById('cardArea');
+  html2canvas(element, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'NCT_style_result.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  }).catch(err => {
+    alert("生成失败，可尝试截图保存");
+  });
+}
+
+function showOppositeResult() {
+  if (!avgCache) return;
+  const code = getCodeFromAvg(avgCache);
+  let opp = '';
+  for (let c of code) {
+    if (c === 'N') opp += 'n';
+    else if (c === 'n') opp += 'N';
+    else if (c === 'I') opp += 'R';
+    else if (c === 'R') opp += 'I';
+    else if (c === 'F') opp += 'S';
+    else if (c === 'S') opp += 'F';
+    else if (c === 'G') opp += 'M';
+    else if (c === 'M') opp += 'G';
+    else opp += c;
+  }
+  const farthestSong = getFarthestSong(avgCache);
+  const farTeam = (() => {
+    if (farthestSong.team === "127") return "NCT 127";
+    if (farthestSong.team === "dream") return "NCT DREAM";
+    if (farthestSong.team === "wayv") return "WayV";
+    if (farthestSong.team === "u") return "NCT U";
+    if (farthestSong.team === "wish") return "NCT WISH";
+    return "NCT U";
+  })();
+  const oppDesc = typeDescMap[opp] || "另一种划味";
+  document.getElementById('resultArea').innerHTML = `
+    <div class="result-area">
+      <h2>反差最大的划曲风格</h2>
+      <div class="result-code">${opp}</div>
+      <p class="result-desc"><strong>${farTeam}</strong> · ${farthestSong.name}</p>
+      <p class="result-desc">${oppDesc}</p>
+    </div>
+    <div class="btn-group"><button onclick="location.reload()">查看原结果</button><button onclick="restartTest()">重新测试</button></div>`;
+}
+
+window.onload = function() {
+  const app = document.getElementById('app');
+  const btn = document.createElement('button');
+  btn.id = 'nextBtn';
+  btn.textContent = '下一题';
+  btn.onclick = nextQuestion;
+  app.appendChild(btn);
+};
+</script>
+</body>
+</html>
